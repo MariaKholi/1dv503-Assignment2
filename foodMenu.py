@@ -99,24 +99,6 @@ def some_dummy_list_of_food(cursor):
     except:
         print('dummy list Exist already')
 
-def manage_choices(cursor):
-    choose = 0
-    while not choose:
-        print("Select one of the Options : ")
-        print(" press 1 : Loggin as Admin")
-        print(" press 2 : Loggin as Customer")
-        print(" press 3 : Show the menu of food")
-        choice = int(input("Enter your choice:"))
-
-        if choice == 1:
-            insert_foodlists(cursor)
-
-        if choice == 2:
-            purchase_food(cursor)
-
-        if choice == 3:
-            show_menu(cursor)
-
 def show_menu(cursor):
     cursor.execute('select food_name, price from Food')
     menu = cursor.fetchall()
@@ -255,10 +237,29 @@ def show_purchase_list(cursor):
     cursor.execute(sql)
     result = cursor.fetchall()
     print('--------Purchase list--------')
-    print ("{:<8} {:<10} {:<15}".format('Name','Food-ID','Price(kr)'))
+    print ("{:<8} {:<10} {:<15}".format('Name','Price(kr)', 'Food-ID'))
     for x in result:
         print ("{:<8} {:<10} {:<15}".format('------','------', '------'))
         print ("{:<8} {:<10} {:<15}".format(x[0], x[1], x[2]))
+
+def manage_choices(cursor):
+    choose = 0
+    while not choose:
+        print("Select one of the Options : ")
+        print(" press 1 : Loggin as Admin")
+        print(" press 2 : Loggin as Customer")
+        print(" press 3 : Show the menu of food")
+        choice = int(input("Enter your choice:"))
+
+        if choice == 1:
+            insert_foodlists(cursor)
+
+        if choice == 2:
+            purchase_food(cursor)
+
+        if choice == 3:
+            show_menu(cursor)
+
 
 connect_to_db(DB_NAME)
 create_table_food(mycursor)
