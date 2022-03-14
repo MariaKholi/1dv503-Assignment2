@@ -1,12 +1,7 @@
 # Programming Assignment2 by Maria Kholi 
-# the name of this project: Restaurant Menu
+# the name of this project: Food Menu
 
-import csv
-from tokenize import Number
-from unicodedata import category
 import mysql.connector as mysql
-# import msvcrt
-# import readchar
 from mysql.connector import errorcode
 import datetime
 
@@ -133,7 +128,7 @@ def show_menu(cursor):
     print('---------------------------')
 
 def show_list_for_admin(cursor):
-    cursor.execute('select foodid, category_name, food_name, price from Food')
+    cursor.execute('select * from Food')
     menu = cursor.fetchall()
     print('--------Food list--------')
     print ("{:<8} {:<10} {:<15} {:<15}".format('ID', 'Category','Product','Price (kr)'))
@@ -157,7 +152,7 @@ def insert_foodlists(cursor):
 
             if choice == 1:
                 try:
-                    category_name = input('Enter the category name (Fruits, Vegetables, Meat): ')
+                    category_name = input('Enter a category name (Fruits, Vegetables, Meat, etc.): ')
                     food_name = input('Enter the food_name: ')
                     price = int(input('Enter the food price: '))
                     sql = "INSERT INTO Food (`category_name`, `price`, `food_name` ) VALUES (%s,%s,%s)"
@@ -165,7 +160,7 @@ def insert_foodlists(cursor):
                     cursor.execute(sql, values)
                     cnx.commit()
                     print('*** a new item has been successfully added to the list ***')
-                    show_menu(cursor)
+                    
                 except:
                     print("Something went Wrong! could not add ")
 
@@ -227,7 +222,7 @@ def sending_order(cursor, name):
             print('To pay: {} kr'.format(total_price))
          
         else:
-            print('Foodname does not exist')
+            print('Foodname does not exist in DB')
 
     except mysql.Error as err:
         print(err.msg)
